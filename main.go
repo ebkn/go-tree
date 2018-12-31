@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -10,6 +11,7 @@ import (
 var (
 	dirCount  = 0
 	fileCount = 0
+	showIcon  *bool
 )
 
 func printTree(dir string, pre string) error {
@@ -31,7 +33,15 @@ func printTree(dir string, pre string) error {
 		} else {
 			branch = "├"
 		}
-		fmt.Println(fmt.Sprintf("%s%s── %s", pre, branch, f.Name()))
+		var icon string
+		if *showIcon {
+			if flinfo.IsDir() {
+				icon = string(0x1f4c1) + " "
+			} else {
+				icon = string(0x1f4c4) + " "
+			}
+		}
+		fmt.Println(fmt.Sprintf("%s%s── %s%s", pre, branch, icon, f.Name()))
 
 		if flinfo.IsDir() {
 			dirCount += 1
@@ -50,9 +60,12 @@ func printTree(dir string, pre string) error {
 }
 
 func main() {
+	showIcon = flag.Bool("icon", false, "show icon")
+	flag.Parse()
+	args := flag.Args()
 	var dir string
-	if len(os.Args) > 1 {
-		dir = os.Args[1]
+	if len(args) > 0 {
+		dir = args[0]
 	} else {
 		dir = "."
 	}
