@@ -44,7 +44,7 @@ func printTree(dir string, pre string) error {
 		fmt.Println(fmt.Sprintf("%s%s── %s%s", pre, branch, icon, f.Name()))
 
 		if flinfo.IsDir() {
-			dirCount += 1
+			dirCount++
 			var blanks string
 			if isLast {
 				blanks = pre + "     "
@@ -53,7 +53,7 @@ func printTree(dir string, pre string) error {
 			}
 			printTree(dir+"/"+f.Name(), blanks)
 		} else {
-			fileCount += 1
+			fileCount++
 		}
 	}
 	return nil
