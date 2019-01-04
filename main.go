@@ -24,7 +24,7 @@ func printTree(dir string, pre string) error {
 		isLast := i == len(files)-1
 		flinfo, err := os.Stat(dir + "/" + f.Name())
 		if err != nil {
-			log.Fatal(err.Error())
+			return err
 		}
 
 		var branch string
